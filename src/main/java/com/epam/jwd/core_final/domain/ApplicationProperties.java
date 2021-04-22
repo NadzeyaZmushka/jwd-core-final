@@ -1,5 +1,7 @@
 package com.epam.jwd.core_final.domain;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * This class should be IMMUTABLE!
  * <p>
@@ -15,5 +17,12 @@ package com.epam.jwd.core_final.domain;
  * dateTimeFormat {@link String} - date/time format for {@link java.time.format.DateTimeFormatter} pattern
  */
 public class ApplicationProperties {
+    String inputRootDir;
+    String outputRootDir;
+    String crewFileName;
+    String missionFileName;
+    String spaceShipFileName;
+    Integer fileRefreshRate;
+    String dateTimeFormat;
     //todo
 }
