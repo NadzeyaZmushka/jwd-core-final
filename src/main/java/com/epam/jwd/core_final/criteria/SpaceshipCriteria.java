@@ -1,6 +1,5 @@
 package com.epam.jwd.core_final.criteria;
 
-import com.epam.jwd.core_final.domain.BaseEntity;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
 
@@ -14,24 +13,24 @@ public class SpaceshipCriteria extends Criteria<Spaceship> {
     private Long flightDistance;
     private Boolean isReadyForNextMissions;
 
-    public static class Builder {
+    public static class CriteriaBuilder {
         SpaceshipCriteria spaceshipCriteria;
 
-        public Builder() {
+        public CriteriaBuilder() {
             spaceshipCriteria = new SpaceshipCriteria();
         }
 
-        public Builder withCrew(Map<Role, Short> crew) {
+        public CriteriaBuilder withCrew(Map<Role, Short> crew) {
             spaceshipCriteria.crew = crew;
             return this;
         }
 
-        public Builder withRole(Long flightDistance) {
+        public CriteriaBuilder withRole(Long flightDistance) {
             spaceshipCriteria.flightDistance = flightDistance;
             return this;
         }
 
-        public Builder withReadyForNextMissions(boolean isReadyForNextMissions) {
+        public CriteriaBuilder withReadyForNextMissions(boolean isReadyForNextMissions) {
             spaceshipCriteria.isReadyForNextMissions = isReadyForNextMissions;
             return this;
         }

@@ -2,9 +2,6 @@ package com.epam.jwd.core_final.domain;
 
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Properties;
-
 /**
  * This class should be IMMUTABLE!
  * <p>
@@ -19,25 +16,43 @@ import java.util.Properties;
  * fileRefreshRate {@link Integer}
  * dateTimeFormat {@link String} - date/time format for {@link java.time.format.DateTimeFormatter} pattern
  */
-public class ApplicationProperties {
+public final class ApplicationProperties {
     //todo
+    private static ApplicationProperties instance;
+
     private final String inputRootDir;
     private final String outputRootDir;
     private final String crewFileName;
-    private final String missionFileName;
-    private final String spaceShipFileName;
+    private final String missionsFileName;
+    private final String spaceshipsFileName;
+    private final String spacemapFileName;
     private final Integer fileRefreshRate;
     private final String dateTimeFormat;
 
-    public ApplicationProperties() {
-        Properties properties = PropertyReaderUtil.getProperties();
-        this.inputRootDir = properties.getProperty("inputRootDir");
-        this.outputRootDir = properties.getProperty("outputRootDir");
-        this.crewFileName = properties.getProperty("crewFileName");
-        this.missionFileName = properties.getProperty("missionFileName");
-        this.spaceShipFileName = properties.getProperty("spaceShipFileName");
-        this.fileRefreshRate = Integer.getInteger(properties.getProperty("fileRefreshRate"));
-        this.dateTimeFormat = properties.getProperty("dateTimeFormat");
+
+    private ApplicationProperties(String inputRootDir, String outputRootDir, String crewFileName,
+                                  String missionsFileName, String spaceshipsFileName, String spacemapFileName,
+                                  Integer fileRefreshRate, String dateTimeFormat) {
+        this.inputRootDir = inputRootDir;
+        this.outputRootDir = outputRootDir;
+        this.crewFileName = crewFileName;
+        this.missionsFileName = missionsFileName;
+        this.spaceshipsFileName = spaceshipsFileName;
+        this.spacemapFileName = spacemapFileName;
+        this.fileRefreshRate = fileRefreshRate;
+        this.dateTimeFormat = dateTimeFormat;
+    }
+
+    public static ApplicationProperties getInstance(String inputRootDir, String outputRootDir, String crewFileName,
+                                                    String missionsFileName, String spaceshipsFileName,
+                                                    String spacemapFileName, Integer fileRefreshRate,
+                                                    String dateTimeFormat) {
+        if (instance == null) {
+            instance = new ApplicationProperties(inputRootDir, outputRootDir, crewFileName,
+                    missionsFileName, spaceshipsFileName, spacemapFileName, fileRefreshRate,
+                    dateTimeFormat);
+        }
+        return instance;
     }
 
     public String getInputRootDir() {
@@ -52,12 +67,16 @@ public class ApplicationProperties {
         return crewFileName;
     }
 
-    public String getMissionFileName() {
-        return missionFileName;
+    public String getMissionsFileName() {
+        return missionsFileName;
     }
 
-    public String getSpaceShipFileName() {
-        return spaceShipFileName;
+    public String getSpaceshipsFileName() {
+        return spaceshipsFileName;
+    }
+
+    public String getSpacemapFileName() {
+        return spacemapFileName;
     }
 
     public Integer getFileRefreshRate() {

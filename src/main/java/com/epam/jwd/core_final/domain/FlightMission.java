@@ -1,8 +1,8 @@
 package com.epam.jwd.core_final.domain;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Expected fields:
@@ -19,41 +19,23 @@ import java.util.List;
  */
 public class FlightMission extends AbstractBaseEntity {
     // todo
-    String missionName;
-    LocalDate startDate;
-    LocalDate endDate;
-    Long distance;
-    Spaceship assignedSpaceShift;
-    List<CrewMember> assignedCrew;
-    MissionResult missionResult;
-    Planet fromPlanet;
-    Planet toPlanet;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Long distance;
+    private Spaceship assignedSpaceShift;
+    private List<CrewMember> assignedCrew;
+    private MissionResult missionResult;
+    private Planet fromPlanet;
+    private Planet toPlanet;
 
-
-    public FlightMission(String missionName, LocalDate startDate,
-                         LocalDate endDate, Long distance,
-                         Spaceship assignedSpaceShift,
-                         List<CrewMember> assignedCrew,
-                         MissionResult missionResult, Planet fromPlanet,
-                         Planet toPlanet) {
-        super(missionName);
-        this.missionName = missionName;
+    public FlightMission(String name, LocalDate startDate,
+                         LocalDate endDate, Long distance) {
+        super(name);
         this.startDate = startDate;
         this.endDate = endDate;
         this.distance = distance;
-        this.assignedSpaceShift = assignedSpaceShift;
-        this.assignedCrew = assignedCrew;
-        this.missionResult = missionResult;
-        this.fromPlanet = fromPlanet;
-        this.toPlanet = toPlanet;
-    }
+        this.missionResult = MissionResult.PLANNED;
 
-    public String getMissionName() {
-        return missionName;
-    }
-
-    public void setMissionName(String missionName) {
-        this.missionName = missionName;
     }
 
     public LocalDate getStartDate() {
@@ -121,15 +103,37 @@ public class FlightMission extends AbstractBaseEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FlightMission that = (FlightMission) o;
+        return Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(distance, that.distance) &&
+                Objects.equals(assignedSpaceShift, that.assignedSpaceShift) &&
+                Objects.equals(assignedCrew, that.assignedCrew) &&
+                missionResult == that.missionResult &&
+                Objects.equals(fromPlanet, that.fromPlanet) &&
+                Objects.equals(toPlanet, that.toPlanet);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, distance, assignedSpaceShift, assignedCrew, missionResult, fromPlanet, toPlanet);
+    }
+
+    @Override
     public String toString() {
         return "FlightMission{" +
-                "missionName='" + missionName + '\'' +
-                ", startDate=" + startDate +
+                "startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", distance=" + distance +
                 ", assignedSpaceShift=" + assignedSpaceShift +
                 ", assignedCrew=" + assignedCrew +
                 ", missionResult=" + missionResult +
+                ", fromPlanet=" + fromPlanet +
+                ", toPlanet=" + toPlanet +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

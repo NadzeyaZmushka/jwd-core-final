@@ -38,6 +38,6 @@ public enum Role implements BaseEntity {
                 return role;
             }  // или добавить try-catch с логгером?
         }
-        throw new UnknownEntityException("Impossible to find Role");
+        throw new UnknownEntityException("Role is not found");
     }
 }

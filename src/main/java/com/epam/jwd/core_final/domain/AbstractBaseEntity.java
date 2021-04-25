@@ -1,7 +1,5 @@
 package com.epam.jwd.core_final.domain;
 
-import java.sql.Struct;
-
 /**
  * Expected fields:
  * <p>
@@ -9,27 +7,25 @@ import java.sql.Struct;
  * name {@link String} - entity name
  */
 public abstract class AbstractBaseEntity implements BaseEntity {
-    private static long currentId = 0;
-    private Long id;
-    private String name;
+
+    protected Long id;
+    protected String name;
+    protected static Long countId = 1L;
 
     public AbstractBaseEntity(String name) {
-        this.id = currentId++;
+        this.id = countId++;
         this.name = name;
     }
 
     @Override
     public Long getId() {
         // todo
-        return this.id;
+        return id;
     }
 
     @Override
     public String getName() {
         // todo
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
+        return name;
     }
 }

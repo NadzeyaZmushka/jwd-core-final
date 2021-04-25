@@ -6,11 +6,13 @@ public interface ApplicationMenu {
 
     ApplicationContext getApplicationContext();
 
-    default Object printAvailableOptions() {
-        return null;
+    default void printAvailableOptions() {
+        System.out.println("Welcome! Choose an action: \n" +
+                "1. Info about crewmembers\n" +
+                "2. Info about spaceships\n");
     }
 
-    default Object handleUserInput(Object o) {
+    default String handleUserInput(String o) {
         return null;
     }
 }

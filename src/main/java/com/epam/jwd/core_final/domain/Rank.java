@@ -38,6 +38,6 @@ public enum Rank implements BaseEntity {
                 return rank;
             }
         }
-        throw new UnknownEntityException("Impossible find Rank");
+        throw new UnknownEntityException("Rank is not found");
     }
 }
