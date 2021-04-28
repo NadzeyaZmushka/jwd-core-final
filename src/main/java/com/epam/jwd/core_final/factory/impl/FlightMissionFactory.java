@@ -5,7 +5,8 @@ import com.epam.jwd.core_final.factory.EntityFactory;
 
 import java.time.LocalDate;
 
-public class FlightMissionFactory implements EntityFactory<FlightMission> {
+public final class FlightMissionFactory implements EntityFactory<FlightMission> {
+
     private static final FlightMissionFactory INSTANCE = new FlightMissionFactory();
 
     public FlightMissionFactory() {
@@ -17,10 +18,11 @@ public class FlightMissionFactory implements EntityFactory<FlightMission> {
 
     @Override
     public FlightMission create(Object... args) {
-        return new FlightMission(
-                (String) args[0],
-                (LocalDate) args[1],
+        return new FlightMission((Long) args[0],
+                (String) args[1],
                 (LocalDate) args[2],
-                (Long) args[3]);
+                (LocalDate) args[3],
+                (Long) args[4]);
     }
+
 }

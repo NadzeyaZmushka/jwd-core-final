@@ -1,7 +1,5 @@
 package com.epam.jwd.core_final.domain;
 
-import com.epam.jwd.core_final.util.PropertyReaderUtil;
-
 /**
  * This class should be IMMUTABLE!
  * <p>
@@ -17,7 +15,7 @@ import com.epam.jwd.core_final.util.PropertyReaderUtil;
  * dateTimeFormat {@link String} - date/time format for {@link java.time.format.DateTimeFormatter} pattern
  */
 public final class ApplicationProperties {
-    //todo
+
     private static ApplicationProperties instance;
 
     private final String inputRootDir;
@@ -86,4 +84,5 @@ public final class ApplicationProperties {
     public String getDateTimeFormat() {
         return dateTimeFormat;
     }
+
 }

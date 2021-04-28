@@ -9,16 +9,16 @@ import java.util.Objects;
  * isReadyForNextMissions {@link Boolean} - true by default. Set to false, after first failed mission
  */
 public class Spaceship extends AbstractBaseEntity {
-    //todo
+
     private Map<Role, Short> crew;
     private Long flightDistance;
-    private Boolean isReadyForNextMissions;
+    private Boolean isReadyForNextMissions = true;
 
-    public Spaceship(String name, Map<Role, Short> crew, Long flightDistance) {
-        super(name);
+    public Spaceship(Long id, String name, Map<Role, Short> crew, Long flightDistance) {
+        this.id = id;
+        this.name = name;
         this.crew = crew;
         this.flightDistance = flightDistance;
-        this.isReadyForNextMissions = true;
     }
 
     public Map<Role, Short> getCrew() {
@@ -63,10 +63,12 @@ public class Spaceship extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Spaceship{" +
-                "crew=" + crew +
+                "name: " + name +
+                ", id=" + id +
                 ", flightDistance=" + flightDistance +
+                ", crew=" + crew +
                 ", isReadyForNextMissions=" + isReadyForNextMissions +
-                ", name='" + name + '\'' +
                 '}';
     }
+
 }

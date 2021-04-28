@@ -6,26 +6,20 @@ package com.epam.jwd.core_final.domain;
  * id {@link Long} - entity id
  * name {@link String} - entity name
  */
+
 public abstract class AbstractBaseEntity implements BaseEntity {
 
-    protected Long id;
-    protected String name;
-    protected static Long countId = 1L;
-
-    public AbstractBaseEntity(String name) {
-        this.id = countId++;
-        this.name = name;
-    }
+    Long id;
+    String name;
 
     @Override
     public Long getId() {
-        // todo
         return id;
     }
 
     @Override
     public String getName() {
-        // todo
         return name;
     }
+
 }

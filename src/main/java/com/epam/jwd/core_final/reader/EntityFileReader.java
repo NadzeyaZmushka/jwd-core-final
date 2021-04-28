@@ -15,15 +15,17 @@ public enum EntityFileReader {
     INSTANCE;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EntityFileReader.class);
+    private static final String SHARP = "#";
+    private static final String COMMA = ",";
+    private static final String SEMICOLON = ";";
 
-    public List<List<String>> readCrew(String filePath) {
+    public List<List<String>> readCrewFromFile(String filePath) {
         List<List<String>> crews = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             crews = reader.lines()
-                    .filter(line -> !line.startsWith("#"))
-                    .map(str -> Arrays.asList(str.split(";")))
-                    .flatMap(list -> list.stream().map(str -> Arrays.asList(str.split(","))))
+                    .filter(line -> !line.startsWith(SHARP))
+                    .map(str -> Arrays.asList(str.split(SEMICOLON)))
+                    .flatMap(list -> list.stream().map(str -> Arrays.asList(str.split(COMMA))))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
@@ -31,13 +33,12 @@ public enum EntityFileReader {
         return crews;
     }
 
-    public List<List<String>> readSpaceships(String filePath) {
+    public List<List<String>> readSpaceshipsFromFile(String filePath) {
         List<List<String>> spaceships = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             spaceships = reader.lines()
-                    .filter(line -> !line.startsWith("#"))
-                    .map(str -> Arrays.asList(str.split(";")))
+                    .filter(line -> !line.startsWith(SHARP))
+                    .map(str -> Arrays.asList(str.split(SEMICOLON)))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             LOGGER.error("Cannot read file");
@@ -45,12 +46,11 @@ public enum EntityFileReader {
         return spaceships;
     }
 
-    public List<String> readSpacemap(String filePath) {
+    public List<String> readSpacemapFromFile(String filePath) {
         List<String> spacemap = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             spacemap = reader.lines()
-                    .flatMap(s -> Arrays.stream(s.split(",")))
+                    .flatMap(s -> Arrays.stream(s.split(COMMA)))
                     .filter(s -> !s.equals("null"))
                     .collect(Collectors.toList());
         } catch (IOException e) {
@@ -58,4 +58,5 @@ public enum EntityFileReader {
         }
         return spacemap;
     }
+
 }

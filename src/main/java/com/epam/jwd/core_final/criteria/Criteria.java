@@ -10,6 +10,10 @@ public abstract class Criteria<T extends BaseEntity> {
     Long id;
     String name;
 
+    public Criteria(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

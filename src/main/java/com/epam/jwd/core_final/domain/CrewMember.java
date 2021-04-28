@@ -9,18 +9,18 @@ import java.util.Objects;
  * rank {@link Rank} - member rank
  * isReadyForNextMissions {@link Boolean} - true by default. Set to false, after first failed mission
  */
+
 public class CrewMember extends AbstractBaseEntity {
-    // todo
+
     private Role role;
     private Rank rank;
-    private Boolean isReadyForNextMissions;
+    private Boolean isReadyForNextMissions = true;
 
-    public CrewMember(String name, Role role, Rank rank) {
-        super(name);
+    public CrewMember(Long id, String name, Role role, Rank rank) {
+        this.id = id;
+        this.name = name;
         this.role = role;
         this.rank = rank;
-        this.isReadyForNextMissions = true;
-
     }
 
     public Role getRole() {
@@ -52,7 +52,8 @@ public class CrewMember extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CrewMember that = (CrewMember) o;
-        return role == that.role &&
+        return id.equals(that.id) &&
+                role == that.role &&
                 rank == that.rank &&
                 Objects.equals(isReadyForNextMissions, that.isReadyForNextMissions);
     }
@@ -65,10 +66,12 @@ public class CrewMember extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "CrewMember{" +
-                "role=" + role +
+                "name=" + name +
+                ", id=" + id +
+                ", role=" + role +
                 ", rank=" + rank +
                 ", isReadyForNextMissions=" + isReadyForNextMissions +
-                ", name='" + name + '\'' +
                 '}';
     }
+
 }

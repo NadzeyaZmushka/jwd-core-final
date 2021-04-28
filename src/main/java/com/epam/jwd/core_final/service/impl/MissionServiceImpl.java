@@ -1,33 +1,36 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.MissionResult;
 import com.epam.jwd.core_final.service.MissionService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MissionServiceImpl implements MissionService {
+public final class MissionServiceImpl implements MissionService {
 
     private static MissionServiceImpl instance;
-    private List<FlightMission> flightMissions;
 
-    private MissionServiceImpl(ApplicationContext context) {
-        this.flightMissions = (List<FlightMission>) context.retrieveBaseEntityList(FlightMission.class);
+    private List<FlightMission> flightMissions;
+    private static final ApplicationContext context = NasaContext.getInstance();
+
+    private MissionServiceImpl() {
     }
 
-    public static MissionServiceImpl getInstance(ApplicationContext context) {
+    public static MissionServiceImpl getInstance() {
         if (instance == null) {
-            instance = new MissionServiceImpl(context);
+            instance = new MissionServiceImpl();
         }
         return instance;
     }
 
     @Override
     public List<FlightMission> findAllMissions() {
-        return flightMissions;
+        return new ArrayList<>(context.retrieveBaseEntityList(FlightMission.class));
     }
 
     @Override
@@ -48,8 +51,10 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public FlightMission createMission(FlightMission flightMission) {
-        // ...
-        flightMissions.add(flightMission);
+        if (!(findAllMissions().contains(flightMission))) {
+            findAllMissions().add(flightMission);
+        }
         return flightMission;
     }
+
 }

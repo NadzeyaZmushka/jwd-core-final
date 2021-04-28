@@ -17,25 +17,25 @@ import java.util.Objects;
  * from {@link Planet}
  * to {@link Planet}
  */
+
 public class FlightMission extends AbstractBaseEntity {
-    // todo
+
     private LocalDate startDate;
     private LocalDate endDate;
     private Long distance;
     private Spaceship assignedSpaceShift;
     private List<CrewMember> assignedCrew;
-    private MissionResult missionResult;
+    private MissionResult missionResult = MissionResult.PLANNED;
     private Planet fromPlanet;
     private Planet toPlanet;
 
-    public FlightMission(String name, LocalDate startDate,
+    public FlightMission(Long id, String name, LocalDate startDate,
                          LocalDate endDate, Long distance) {
-        super(name);
+        this.id = id;
+        this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.distance = distance;
-        this.missionResult = MissionResult.PLANNED;
-
     }
 
     public LocalDate getStartDate() {
@@ -119,13 +119,16 @@ public class FlightMission extends AbstractBaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, distance, assignedSpaceShift, assignedCrew, missionResult, fromPlanet, toPlanet);
+        return Objects.hash(startDate, endDate, distance,
+                assignedSpaceShift, assignedCrew, missionResult,
+                fromPlanet, toPlanet);
     }
 
     @Override
     public String toString() {
         return "FlightMission{" +
-                "startDate=" + startDate +
+                "name='" + name +
+                ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", distance=" + distance +
                 ", assignedSpaceShift=" + assignedSpaceShift +
@@ -133,7 +136,7 @@ public class FlightMission extends AbstractBaseEntity {
                 ", missionResult=" + missionResult +
                 ", fromPlanet=" + fromPlanet +
                 ", toPlanet=" + toPlanet +
-                ", name='" + name + '\'' +
                 '}';
     }
+
 }

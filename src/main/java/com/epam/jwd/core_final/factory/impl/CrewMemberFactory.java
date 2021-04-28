@@ -4,15 +4,11 @@ import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.factory.EntityFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // do the same for other entities
-public class CrewMemberFactory implements EntityFactory<CrewMember> {
+public final class CrewMemberFactory implements EntityFactory<CrewMember> {
 
     private static final CrewMemberFactory INSTANCE = new CrewMemberFactory();
-
-    static final Logger LOGGER = LoggerFactory.getLogger(CrewMemberFactory.class);
 
     private CrewMemberFactory() {
     }
@@ -23,11 +19,12 @@ public class CrewMemberFactory implements EntityFactory<CrewMember> {
 
     @Override
     public CrewMember create(Object... args) {
-//        LOGGER.info("CrewMember creation");
         return new CrewMember(
-                (String) args[0],
-                (Role) args[1],
-                (Rank) args[2]);
+                (Long) args[0],
+                (String) args[1],
+                (Role) args[2],
+                (Rank) args[3]);
     }
+
 }
 

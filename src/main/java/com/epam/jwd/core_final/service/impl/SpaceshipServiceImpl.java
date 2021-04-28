@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.SpaceshipCriteria;
 import com.epam.jwd.core_final.domain.Spaceship;
@@ -14,41 +15,45 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SpaceshipServiceImpl implements SpaceshipService {
+public final class SpaceshipServiceImpl implements SpaceshipService {
 
     private static SpaceshipServiceImpl instance;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(SpacemapServiseImpl.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(SpaceMapServiceImpl.class);
+    private final ApplicationContext context = NasaContext.getInstance();
 
-    private final List<Spaceship> allSpaceships;
-
-    private SpaceshipServiceImpl(ApplicationContext context) {
-        this.allSpaceships = (List<Spaceship>) context.retrieveBaseEntityList(Spaceship.class);
+    private SpaceshipServiceImpl() {
     }
 
-    public static SpaceshipServiceImpl getInstance(ApplicationContext context) {
+    public static SpaceshipServiceImpl getInstance() {
         if (instance == null) {
-            instance = new SpaceshipServiceImpl(context);
+            instance = new SpaceshipServiceImpl();
         }
         return instance;
     }
 
     @Override
     public List<Spaceship> findAllSpaceships() {
-        return allSpaceships;
+        return new ArrayList<>(context.retrieveBaseEntityList(Spaceship.class));
     }
 
     @Override
     public List<Spaceship> findAllSpaceshipsByCriteria(Criteria<? extends Spaceship> criteria) {
-        List<Spaceship> spaceships = new ArrayList<>();
+        List<Spaceship> spaceships = null;
         SpaceshipCriteria spaceshipCriteria = (SpaceshipCriteria) criteria;
+
+        if (spaceshipCriteria.getId() != null) {
+            spaceships = findAllSpaceships().stream()
+                    .filter(spaceship -> spaceship.getId().equals(spaceshipCriteria.getId()))
+                    .collect(Collectors.toList());
+        }
         if (spaceshipCriteria.getCrew() != null) {
-            spaceships = allSpaceships.stream()
+            spaceships = findAllSpaceships().stream()
                     .filter(spaceship -> spaceship.getCrew().equals(spaceshipCriteria.getCrew()))
                     .collect(Collectors.toList());
         }
         if (spaceshipCriteria.getFlightDistance() != null) {
-            spaceships = allSpaceships.stream()
+            spaceships = findAllSpaceships().stream()
                     .filter(spaceship -> spaceship.getFlightDistance().equals(spaceshipCriteria.getFlightDistance()))
                     .collect(Collectors.toList());
         }
@@ -57,12 +62,12 @@ public class SpaceshipServiceImpl implements SpaceshipService {
 
     @Override
     public Optional<Spaceship> findSpaceshipByCriteria(Criteria<? extends Spaceship> criteria) {
-        return findSpaceshipByCriteria(criteria).stream().findAny();
+        return findAllSpaceshipsByCriteria(criteria).stream().findFirst();
     }
 
     @Override
     public Spaceship updateSpaceshipDetails(Spaceship spaceship) {
-        spaceship.setReadyForNextMission(false);
+        spaceship.setFlightDistance(1000000L);
         return spaceship;
     }
 
@@ -78,10 +83,10 @@ public class SpaceshipServiceImpl implements SpaceshipService {
     public Spaceship createSpaceship(Spaceship spaceship) throws RuntimeException {
         // ...
         try {
-            if (allSpaceships.contains(spaceship)) {
+            if (findAllSpaceships().contains(spaceship)) {
                 throw new EntityCreationException("Spaceship already exist");
             } else {
-                allSpaceships.add(spaceship);
+                findAllSpaceships().add(spaceship);
             }
         } catch (EntityCreationException e) {
             LOGGER.error(e.getMessage());

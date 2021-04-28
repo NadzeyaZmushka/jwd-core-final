@@ -8,27 +8,23 @@ import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.InvalidStateException;
-import com.epam.jwd.core_final.reader.EntityPopulator;
+import com.epam.jwd.core_final.reader.EntityPopulate;
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 // todo
-public class NassaContext implements ApplicationContext {
+public final class NasaContext implements ApplicationContext {
 
-    private static NassaContext instance;
+    private static NasaContext instance;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(NassaContext.class);
-
-    private NassaContext() {
+    private NasaContext() {
     }
 
-    public static NassaContext getInstance() {
+    public static NasaContext getInstance() {
         if (instance == null) {
-            instance = new NassaContext();
+            instance = new NasaContext();
         }
         return instance;
     }
@@ -40,11 +36,11 @@ public class NassaContext implements ApplicationContext {
     private Collection<FlightMission> flightMissions = new ArrayList<>();
 
     ApplicationProperties applicationProperties = PropertyReaderUtil.getInstance().loadProperties();
-    EntityPopulator entityPopulator = EntityPopulator.INSTANCE;
-    String path = "src/main/resources/";
-    String filePathToCrew = path + applicationProperties.getInputRootDir() + "/" + applicationProperties.getCrewFileName();
-    String filePathToSpaceships = path + applicationProperties.getInputRootDir() + "/" + applicationProperties.getSpaceshipsFileName();
-    String filePathToSpacemap = path + applicationProperties.getInputRootDir() + "/" + applicationProperties.getSpacemapFileName();
+    EntityPopulate entityPopulate = EntityPopulate.INSTANCE;
+    private final String PATH = "src/main/resources/";
+    private final String FILE_PATH_TO_CREW = PATH + applicationProperties.getInputRootDir() + "/" + applicationProperties.getCrewFileName();
+    String FILE_PATH_TO_SPACESHIPS = PATH + applicationProperties.getInputRootDir() + "/" + applicationProperties.getSpaceshipsFileName();
+    String FILE_PATH_TO_SPACE_MAP = PATH + applicationProperties.getInputRootDir() + "/" + applicationProperties.getSpacemapFileName();
 
     @Override
     public <T extends BaseEntity> Collection<T> retrieveBaseEntityList(Class<T> tClass) {
@@ -71,9 +67,9 @@ public class NassaContext implements ApplicationContext {
      */
     @Override
     public void init() throws InvalidStateException {
-        crewMembers = entityPopulator.populateCrewFromReader(filePathToCrew);
-        spaceships = entityPopulator.populateSpaceshipsFromReader(filePathToSpaceships);
-        planetMap = entityPopulator.populateSpacemapFromReader(filePathToSpacemap);
+        crewMembers = entityPopulate.populateCrewFromReader(FILE_PATH_TO_CREW);
+        spaceships = entityPopulate.populateSpaceshipsFromReader(FILE_PATH_TO_SPACESHIPS);
+        planetMap = entityPopulate.populateSpaceMapFromReader(FILE_PATH_TO_SPACE_MAP);
         //        throw new InvalidStateException();
     }
 }

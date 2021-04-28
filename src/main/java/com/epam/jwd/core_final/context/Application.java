@@ -1,20 +1,18 @@
 package com.epam.jwd.core_final.context;
 
-import com.epam.jwd.core_final.context.impl.NassaApplicationMenu;
-import com.epam.jwd.core_final.context.impl.NassaContext;
+import com.epam.jwd.core_final.context.impl.NasaApplicationMenu;
+import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.exception.InvalidStateException;
-
-import java.util.function.Supplier;
 
 public interface Application {
 
-    static ApplicationMenu start() throws InvalidStateException {
-        final NassaApplicationMenu nasaApplicationMenu = NassaApplicationMenu.getInstance();
-        final Supplier<ApplicationContext> applicationContextSupplier = nasaApplicationMenu::getApplicationContext; // todo
-        final NassaContext nassaContext = NassaContext.getInstance();
+    static void start() throws InvalidStateException {
+        final NasaApplicationMenu nasaApplicationMenu = NasaApplicationMenu.getInstance();
+        final NasaContext nasaContext = NasaContext.getInstance();
 
-        nassaContext.init();
+        nasaContext.init();
         nasaApplicationMenu.printAvailableOptions();
-        return applicationContextSupplier::get;
+        nasaApplicationMenu.takeFirstUserInput();
     }
+
 }

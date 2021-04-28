@@ -7,10 +7,20 @@ import com.epam.jwd.core_final.domain.Role;
 /**
  * Should be a builder for {@link com.epam.jwd.core_final.domain.CrewMember} fields
  */
+
 public class CrewMemberCriteria extends Criteria<CrewMember> {
-    private Role role;
-    private Rank rank;
-    private Boolean isReadyForNextMissions;
+
+    private final Role role;
+    private final Rank rank;
+    private final Boolean isReadyForNextMissions;
+
+    private CrewMemberCriteria(Long id, Role role, Rank rank, Boolean isReadyForNextMissions) {
+        super(id);
+        this.id = id;
+        this.role = role;
+        this.rank = rank;
+        this.isReadyForNextMissions = isReadyForNextMissions;
+    }
 
     public Role getRole() {
         return role;
@@ -25,29 +35,38 @@ public class CrewMemberCriteria extends Criteria<CrewMember> {
     }
 
     public static class CriteriaBuilder {
-        CrewMemberCriteria crewMemberCriteria;
+
+        Long id;
+        Role role;
+        Rank rank;
+        Boolean isReadyForNextMissions;
 
         public CriteriaBuilder() {
-            crewMemberCriteria = new CrewMemberCriteria();
         }
 
-        public CriteriaBuilder withRank(Rank rank) {
-            crewMemberCriteria.rank = rank;
+        public CriteriaBuilder withId(Long id) {
+            this.id = id;
             return this;
         }
 
-        public CriteriaBuilder withRole(Role role) {
-            crewMemberCriteria.role = role;
+        public CriteriaBuilder withRank(Long id) {
+            this.rank = Rank.resolveRankById(id);
+            return this;
+        }
+
+        public CriteriaBuilder withRole(Long id) {
+            this.role = Role.resolveRoleById(id);
             return this;
         }
 
         public CriteriaBuilder withReadyForNextMissions(Boolean isReadyForNextMissions) {
-            crewMemberCriteria.isReadyForNextMissions = isReadyForNextMissions;
+            this.isReadyForNextMissions = isReadyForNextMissions;
             return this;
         }
 
         public CrewMemberCriteria build() {
-            return crewMemberCriteria;
+            return new CrewMemberCriteria(this.id, this.role, this.rank, this.isReadyForNextMissions);
         }
     }
+
 }

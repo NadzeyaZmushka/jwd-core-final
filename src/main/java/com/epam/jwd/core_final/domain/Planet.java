@@ -7,15 +7,15 @@ import java.util.Objects;
  * <p>
  * location could be a simple class Point with 2 coordinates
  */
+
 public class Planet extends AbstractBaseEntity {
 
-    private int x;
-    private int y;
+    private final int x = 1 + (int) (Math.random() * 10);
+    private final int y = 1 + (int) (Math.random() * 10);
 
-    public Planet(String name) {
-        super(name);
-        this.x = 1 + (int) (Math.random() * 10);
-        this.y = 1 + (int) (Math.random() * 10);
+    public Planet(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public int getX() {
@@ -24,14 +24,6 @@ public class Planet extends AbstractBaseEntity {
 
     public int getY() {
         return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     @Override
@@ -51,9 +43,10 @@ public class Planet extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Planet{" +
-                "x=" + x +
+                "name='" + name +
+                ", x=" + x +
                 ", y=" + y +
-                ", name='" + name + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

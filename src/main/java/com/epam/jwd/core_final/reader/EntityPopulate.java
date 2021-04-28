@@ -18,19 +18,21 @@ import java.util.List;
 import java.util.Map;
 
 
-public enum EntityPopulator {
+public enum EntityPopulate {
     INSTANCE;
 
     EntityFileReader reader = EntityFileReader.INSTANCE;
-
+    private static final String COMMA = ",";
+    private static final String COLON = ":";
+    private Long id = 1L;
 
     public Collection<CrewMember> populateCrewFromReader(String filePath) throws InvalidStateException {
         EntityFactory<CrewMember> crewMemberFactory = CrewMemberFactory.getInstance();
         List<CrewMember> crewMembers = new ArrayList<>();
-        List<List<String>> list = reader.readCrew(filePath);
+        List<List<String>> list = reader.readCrewFromFile(filePath);
 
         for (List<String> lines : list) {
-            crewMembers.add(crewMemberFactory.create(
+            crewMembers.add(crewMemberFactory.create(id++,
                     lines.get(1),
                     Role.resolveRoleById(Long.parseLong(lines.get(0))),
                     Rank.resolveRankById(Long.parseLong(lines.get(2))))
@@ -42,10 +44,10 @@ public enum EntityPopulator {
     public Collection<Spaceship> populateSpaceshipsFromReader(String filePath) throws InvalidStateException {
         EntityFactory<Spaceship> spaceshipFactory = SpaceshipFactory.getInstance();
         List<Spaceship> spaceships = new ArrayList<>();
-        List<List<String>> list = reader.readSpaceships(filePath);
+        List<List<String>> list = reader.readSpaceshipsFromFile(filePath);
 
         for (List<String> lines : list) {
-            spaceships.add(spaceshipFactory.create(lines.get(0),
+            spaceships.add(spaceshipFactory.create(id++, lines.get(0),
                     mapFromStringToMap(lines.get(2)),
                     Long.parseLong(lines.get(1)))
             );
@@ -53,13 +55,13 @@ public enum EntityPopulator {
         return spaceships;
     }
 
-    public Collection<Planet> populateSpacemapFromReader(String filePath) throws InvalidStateException {
+    public Collection<Planet> populateSpaceMapFromReader(String filePath) throws InvalidStateException {
         EntityFactory<Planet> planetFactory = PlanetFactory.getInstance();
         List<Planet> planets = new ArrayList<>();
-        List<String> list = reader.readSpacemap(filePath);
+        List<String> list = reader.readSpacemapFromFile(filePath);
 
         for (String lines : list) {
-            planets.add(planetFactory.create(lines));
+            planets.add(planetFactory.create(id++, lines));
         }
         return planets;
     }
@@ -67,10 +69,10 @@ public enum EntityPopulator {
     private Map<Role, Short> mapFromStringToMap(String string) {
         Map<Role, Short> crew = new HashMap<>(); // new LinkedHashMap<>();?
         string = string.substring(1, string.length() - 1);
-        String[] crewRolesShorts = string.split(",");
+        String[] crewRolesShorts = string.split(COMMA);
 
         for (String crewRoleShort : crewRolesShorts) {
-            String[] roleAndShort = crewRoleShort.split(":");
+            String[] roleAndShort = crewRoleShort.split(COLON);
             crew.put(Role.resolveRoleById(Long.parseLong(roleAndShort[0])), Short.parseShort(roleAndShort[1]));
         }
         return crew;

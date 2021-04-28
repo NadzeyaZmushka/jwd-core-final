@@ -4,17 +4,17 @@ import com.epam.jwd.core_final.domain.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public final class PropertyReaderUtil {
 
+    private static final PropertyReaderUtil instance = new PropertyReaderUtil();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyReaderUtil.class);
 
     private static final Properties properties = new Properties();
-    private static final PropertyReaderUtil instance = new PropertyReaderUtil();
 
     private PropertyReaderUtil() {
     }
@@ -34,7 +34,7 @@ public final class PropertyReaderUtil {
     public ApplicationProperties loadProperties() {
         final String propertiesFileName = "application.properties";
 
-        try (InputStream stream= this.getClass().getClassLoader().getResourceAsStream(propertiesFileName)) {
+        try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(propertiesFileName)) {
             properties.load(stream);
         } catch (IOException e) {
             LOGGER.error("Error reading file");
@@ -50,6 +50,5 @@ public final class PropertyReaderUtil {
                 properties.getProperty("dateTimeFormat")
         );
     }
-
 
 }

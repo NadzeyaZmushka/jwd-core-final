@@ -1,10 +1,15 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.Rank;
+import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.exception.EntityCreationException;
+import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.service.CrewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,42 +19,45 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class CrewServiceImpl implements CrewService {
+public final class CrewServiceImpl implements CrewService {
 
     private static CrewServiceImpl instance;
 
     static final Logger LOGGER = LoggerFactory.getLogger(CrewServiceImpl.class);
+    private final ApplicationContext context = NasaContext.getInstance();
 
-    private final List<CrewMember> allCrewMembers;
-
-    private CrewServiceImpl(ApplicationContext context) {
-        this.allCrewMembers = (List<CrewMember>) context.retrieveBaseEntityList(CrewMember.class);
+    private CrewServiceImpl() {
     }
 
-    public static CrewServiceImpl getInstance(ApplicationContext context) {
+    public static CrewServiceImpl getInstance() {
         if (instance == null) {
-            instance = new CrewServiceImpl(context);
+            instance = new CrewServiceImpl();
         }
         return instance;
     }
 
     @Override
     public List<CrewMember> findAllCrewMembers() {
-        return allCrewMembers;
+        return new ArrayList<>(context.retrieveBaseEntityList(CrewMember.class));
     }
 
     @Override
     public List<CrewMember> findAllCrewMembersByCriteria(Criteria<? extends CrewMember> criteria) {
-        List<CrewMember> crewMembers = new ArrayList<>();
+        List<CrewMember> crewMembers = null;
         CrewMemberCriteria crewMemberCriteria = (CrewMemberCriteria) criteria;
 
         if (crewMemberCriteria.getRole() != null) {
-            crewMembers = allCrewMembers.stream()
+            crewMembers = findAllCrewMembers().stream()
                     .filter(crewMember -> crewMember.getRole().equals(crewMemberCriteria.getRole()))
                     .collect(Collectors.toList());
         }
+        if (crewMemberCriteria.getId() != null) {
+            crewMembers = findAllCrewMembers().stream()
+                    .filter(crewMember -> crewMember.getId().equals(crewMemberCriteria.getId()))
+                    .collect(Collectors.toList());
+        }
         if (crewMemberCriteria.getRank() != null) {
-            crewMembers = allCrewMembers.stream()
+            crewMembers = findAllCrewMembers().stream()
                     .filter(crewMember -> crewMember.getRank().equals(crewMemberCriteria.getRank()))
                     .collect(Collectors.toList());
         }
@@ -63,29 +71,33 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public CrewMember updateCrewMemberDetails(CrewMember crewMember) {
-        crewMember.setReadyForNextMission(false);
+        crewMember.setRank(Rank.CAPTAIN);
+        crewMember.setRole(Role.COMMANDER);
         return crewMember;
     }
 
     // todo create custom exception for case, when crewMember is not able to be assigned
     @Override
-    public void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException {
+    public void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException, InvalidStateException {
         // ...
+
     }
 
     // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
     // crewMember unique criteria - only name!
     @Override
-    public CrewMember createCrewMember(CrewMember crewMember) throws RuntimeException {
-        try {
-            if (allCrewMembers.contains(crewMember)) {
-                throw new EntityCreationException("Crewmember already exists");
-            } else {
-                allCrewMembers.add(crewMember);
-            }
-        } catch (EntityCreationException e) {
-            LOGGER.error(e.getMessage());
+    public CrewMember createCrewMember(CrewMember crewMember) throws RuntimeException, EntityCreationException {
+        Optional<CrewMember> duplicateId = findAllCrewMembers().stream()
+                .filter(c -> c.getId().equals(crewMember.getId()))
+                .findAny();
+        if (duplicateId.isPresent()) {
+            throw new EntityCreationException("Such crew member already exists");
         }
-        return crewMember;
+        CrewMember member = CrewMemberFactory.getInstance()
+                .create(crewMember.getId(), crewMember.getName(),
+                        crewMember.getRole(), crewMember.getRank());
+        context.retrieveBaseEntityList(CrewMember.class).add(crewMember);
+        return member;
     }
+
 }
