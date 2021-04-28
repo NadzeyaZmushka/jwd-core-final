@@ -20,7 +20,7 @@ public interface ApplicationMenu {
                 "5. Exit");
     }
 
-    default void availableOptionsAfterCrew() {
+    default void printAvailableOptionsAfterCrew() {
         System.out.println("----------------\n" +
                 "Choose an action:\n" +
                 "1. Update crew member\n" +
@@ -35,10 +35,11 @@ public interface ApplicationMenu {
         System.out.println("----------------\n" +
                 "Choose an action:\n" +
                 "1. Info about crew members\n" +
-                "2. Info about planets \n" +
-                "3. Create mission\n" +
-                "4. Return to main menu\n" +
-                "5. Exit");
+                "2. Update spaceship\n" +
+                "3. Info about planets \n" +
+                "4. Create mission\n" +
+                "5. Exit\n" +
+                "6. Return to main menu\n");
     }
 
     default void printAvailableOptionsAfterPlanets() {

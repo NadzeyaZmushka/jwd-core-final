@@ -66,14 +66,13 @@ public final class CrewServiceImpl implements CrewService {
 
     @Override
     public Optional<CrewMember> findCrewMemberByCriteria(Criteria<? extends CrewMember> criteria) {
-        return findAllCrewMembersByCriteria(criteria).stream().findAny();
+        return findAllCrewMembersByCriteria(criteria).stream().findFirst();
     }
 
     @Override
-    public CrewMember updateCrewMemberDetails(CrewMember crewMember) {
+    public void updateCrewMemberDetails(CrewMember crewMember) {
         crewMember.setRank(Rank.CAPTAIN);
         crewMember.setRole(Role.COMMANDER);
-        return crewMember;
     }
 
     // todo create custom exception for case, when crewMember is not able to be assigned
@@ -86,7 +85,7 @@ public final class CrewServiceImpl implements CrewService {
     // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
     // crewMember unique criteria - only name!
     @Override
-    public CrewMember createCrewMember(CrewMember crewMember) throws RuntimeException, EntityCreationException {
+    public CrewMember createCrewMember(CrewMember crewMember) throws EntityCreationException {
         Optional<CrewMember> duplicateId = findAllCrewMembers().stream()
                 .filter(c -> c.getId().equals(crewMember.getId()))
                 .findAny();

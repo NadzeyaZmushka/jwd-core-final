@@ -9,8 +9,9 @@ public class PlanetFactoryTest {
 
     @Test
     public void testCreate_returnsNewPlanet() {
-        Planet actual = PlanetFactory.getInstance().create("Mars");
+        Planet actual = new Planet(1L, "Mars");
 
+        assertEquals((Long) 1L, actual.getId());
         assertEquals("Mars", actual.getName());
     }
 }

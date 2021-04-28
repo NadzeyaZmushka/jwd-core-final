@@ -46,7 +46,7 @@ public enum EntityFileReader {
         return spaceships;
     }
 
-    public List<String> readSpacemapFromFile(String filePath) {
+    public List<String> readSpaceMapFromFile(String filePath) {
         List<String> spacemap = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             spacemap = reader.lines()

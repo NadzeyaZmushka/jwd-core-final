@@ -20,7 +20,7 @@ public interface CrewService {
 
     Optional<CrewMember> findCrewMemberByCriteria(Criteria<? extends CrewMember> criteria);
 
-    CrewMember updateCrewMemberDetails(CrewMember crewMember);
+    void updateCrewMemberDetails(CrewMember crewMember);
 
     // todo create custom exception for case, when crewMember is not able to be assigned
     void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException, InvalidStateException;

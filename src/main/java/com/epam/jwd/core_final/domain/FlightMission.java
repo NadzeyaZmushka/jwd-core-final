@@ -128,14 +128,14 @@ public class FlightMission extends AbstractBaseEntity {
     public String toString() {
         return "FlightMission{" +
                 "name='" + name +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", distance=" + distance +
-                ", assignedSpaceShift=" + assignedSpaceShift +
-                ", assignedCrew=" + assignedCrew +
-                ", missionResult=" + missionResult +
-                ", fromPlanet=" + fromPlanet +
-                ", toPlanet=" + toPlanet +
+                ",\n startDate=" + startDate +
+                ",\n endDate=" + endDate +
+                ",\n distance=" + distance +
+                ",\n assignedSpaceShift=" + assignedSpaceShift +
+                ",\n assignedCrew=" + assignedCrew +
+                ",\n missionResult=" + missionResult +
+                ",\n fromPlanet=" + fromPlanet +
+                ",\n toPlanet=" + toPlanet +
                 '}';
     }
 

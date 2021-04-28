@@ -5,7 +5,7 @@ import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
-import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.EntityCreationException;
 import com.epam.jwd.core_final.factory.EntityFactory;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
@@ -26,7 +26,7 @@ public enum EntityPopulate {
     private static final String COLON = ":";
     private Long id = 1L;
 
-    public Collection<CrewMember> populateCrewFromReader(String filePath) throws InvalidStateException {
+    public Collection<CrewMember> populateCrewFromReader(String filePath) throws EntityCreationException {
         EntityFactory<CrewMember> crewMemberFactory = CrewMemberFactory.getInstance();
         List<CrewMember> crewMembers = new ArrayList<>();
         List<List<String>> list = reader.readCrewFromFile(filePath);
@@ -41,7 +41,7 @@ public enum EntityPopulate {
         return crewMembers;
     }
 
-    public Collection<Spaceship> populateSpaceshipsFromReader(String filePath) throws InvalidStateException {
+    public Collection<Spaceship> populateSpaceshipsFromReader(String filePath) throws EntityCreationException {
         EntityFactory<Spaceship> spaceshipFactory = SpaceshipFactory.getInstance();
         List<Spaceship> spaceships = new ArrayList<>();
         List<List<String>> list = reader.readSpaceshipsFromFile(filePath);
@@ -55,10 +55,10 @@ public enum EntityPopulate {
         return spaceships;
     }
 
-    public Collection<Planet> populateSpaceMapFromReader(String filePath) throws InvalidStateException {
+    public Collection<Planet> populateSpaceMapFromReader(String filePath) throws EntityCreationException {
         EntityFactory<Planet> planetFactory = PlanetFactory.getInstance();
         List<Planet> planets = new ArrayList<>();
-        List<String> list = reader.readSpacemapFromFile(filePath);
+        List<String> list = reader.readSpaceMapFromFile(filePath);
 
         for (String lines : list) {
             planets.add(planetFactory.create(id++, lines));
@@ -67,7 +67,7 @@ public enum EntityPopulate {
     }
 
     private Map<Role, Short> mapFromStringToMap(String string) {
-        Map<Role, Short> crew = new HashMap<>(); // new LinkedHashMap<>();?
+        Map<Role, Short> crew = new HashMap<>();
         string = string.substring(1, string.length() - 1);
         String[] crewRolesShorts = string.split(COMMA);
 

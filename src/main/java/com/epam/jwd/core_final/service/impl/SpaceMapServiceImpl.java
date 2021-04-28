@@ -4,14 +4,14 @@ import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.PlanetCriteria;
 import com.epam.jwd.core_final.domain.Planet;
-import com.epam.jwd.core_final.service.SpacemapService;
+import com.epam.jwd.core_final.service.SpaceMapService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public final class SpaceMapServiceImpl implements SpacemapService {
+public final class SpaceMapServiceImpl implements SpaceMapService {
 
     private static SpaceMapServiceImpl instance;
 
@@ -59,8 +59,13 @@ public final class SpaceMapServiceImpl implements SpacemapService {
         return planets;
     }
 
-    public Optional<Planet> findPlanetByCriteria(Criteria<? extends Planet> criteria) {
-        return findAllPlanetsByCriteria(criteria).stream().findFirst();
+    public Planet findPlanetByCriteria(Criteria<? extends Planet> criteria) {
+        Planet planet = null;
+        Optional<Planet> planetOptional = findAllPlanetsByCriteria(criteria).stream().findFirst();
+        if (planetOptional.isPresent()) {
+            planet = planetOptional.get();
+        }
+        return planet;
     }
 
 }

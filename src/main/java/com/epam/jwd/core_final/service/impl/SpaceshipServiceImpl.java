@@ -6,6 +6,7 @@ import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.SpaceshipCriteria;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.EntityCreationException;
+import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.service.SpaceshipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,11 @@ public final class SpaceshipServiceImpl implements SpaceshipService {
                     .filter(spaceship -> spaceship.getFlightDistance().equals(spaceshipCriteria.getFlightDistance()))
                     .collect(Collectors.toList());
         }
+        if (spaceshipCriteria.getReadyForNextMissions() != null) {
+            spaceships = findAllSpaceships().stream()
+                    .filter(spaceship -> spaceship.getReadyForNextMission().equals(spaceshipCriteria.getReadyForNextMissions()))
+                    .collect(Collectors.toList());
+        }
         return spaceships;
     }
 
@@ -66,31 +72,31 @@ public final class SpaceshipServiceImpl implements SpaceshipService {
     }
 
     @Override
-    public Spaceship updateSpaceshipDetails(Spaceship spaceship) {
+    public void updateSpaceshipDetails(Spaceship spaceship) {
         spaceship.setFlightDistance(1000000L);
-        return spaceship;
     }
 
     // todo create custom exception for case, when spaceship is not able to be assigned
     @Override
     public void assignSpaceshipOnMission(Spaceship crewMember) throws RuntimeException {
-
+        // ...
     }
 
     // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
     // spaceship unique criteria - only name!
     @Override
-    public Spaceship createSpaceship(Spaceship spaceship) throws RuntimeException {
-        // ...
-        try {
-            if (findAllSpaceships().contains(spaceship)) {
-                throw new EntityCreationException("Spaceship already exist");
-            } else {
-                findAllSpaceships().add(spaceship);
-            }
-        } catch (EntityCreationException e) {
-            LOGGER.error(e.getMessage());
+    public Spaceship createSpaceship(Spaceship spaceship) throws EntityCreationException {
+        Optional<Spaceship> duplicateId = findAllSpaceships().stream()
+                .filter(s -> s.getId().equals(spaceship.getId()))
+                .findAny();
+        if (duplicateId.isPresent()) {
+            throw new EntityCreationException("Such spaceship already exist");
         }
-        return spaceship;
+        Spaceship ship = SpaceshipFactory.getInstance()
+                .create(spaceship.getId(), spaceship.getName(),
+                        spaceship.getCrew(), spaceship.getFlightDistance());
+        context.retrieveBaseEntityList(Spaceship.class).add(ship);
+        return ship;
     }
+
 }

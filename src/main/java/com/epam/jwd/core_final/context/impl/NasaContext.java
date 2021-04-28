@@ -33,7 +33,7 @@ public final class NasaContext implements ApplicationContext {
     private Collection<CrewMember> crewMembers = new ArrayList<>();
     private Collection<Spaceship> spaceships = new ArrayList<>();
     private Collection<Planet> planetMap = new ArrayList<>();
-    private Collection<FlightMission> flightMissions = new ArrayList<>();
+    private final Collection<FlightMission> flightMissions = new ArrayList<>();
 
     ApplicationProperties applicationProperties = PropertyReaderUtil.getInstance().loadProperties();
     EntityPopulate entityPopulate = EntityPopulate.INSTANCE;
@@ -70,7 +70,6 @@ public final class NasaContext implements ApplicationContext {
         crewMembers = entityPopulate.populateCrewFromReader(FILE_PATH_TO_CREW);
         spaceships = entityPopulate.populateSpaceshipsFromReader(FILE_PATH_TO_SPACESHIPS);
         planetMap = entityPopulate.populateSpaceMapFromReader(FILE_PATH_TO_SPACE_MAP);
-        //        throw new InvalidStateException();
     }
 }
 
