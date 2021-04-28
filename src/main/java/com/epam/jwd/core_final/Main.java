@@ -10,7 +10,7 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOGGER.trace("Program was started");
+        LOGGER.info("Program was started");
 
         try {
             Application.start();
@@ -18,7 +18,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        LOGGER.trace("Program was finished");
+        LOGGER.info("Program was finished");
     }
 
 }
