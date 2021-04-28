@@ -21,7 +21,7 @@ import java.util.Map;
 public enum EntityPopulate {
     INSTANCE;
 
-    EntityFileReader reader = EntityFileReader.INSTANCE;
+    private final EntityFileReader reader = EntityFileReader.INSTANCE;
     private static final String COMMA = ",";
     private static final String COLON = ":";
     private Long id = 1L;

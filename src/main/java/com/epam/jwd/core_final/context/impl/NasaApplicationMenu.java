@@ -45,32 +45,35 @@ public final class NasaApplicationMenu implements ApplicationMenu {
                 if (Integer.parseInt(s) == 1) {
                     actionMenu.userChoseUpdateCrewMember();
                     break;
-                } else if (Integer.parseInt(s) == 6) {
+                } else if (Integer.parseInt(s) == 2) {
                     printAvailableOptions();
                     takeFirstUserInput();
-                    break;
                 }
                 break;
             case "2":
                 spaceshipService.findAllSpaceships().forEach(System.out::println);
                 printAvailableOptionsAfterSpaceships();
                 String s1 = handleUserInput();
-                if (Integer.parseInt(s1) == 2) {
+                if (Integer.parseInt(s1) == 1) {
                     actionMenu.userChoseUpdateSpaceship();
-                } else {
+                } else if (Integer.parseInt(s1) == 2) {
+                    printAvailableOptions();
                     takeFirstUserInput();
                 }
                 break;
             case "3":
                 spacemapService.findAllPlanets().forEach(System.out::println);
                 printAvailableOptionsAfterPlanets();
+                takeFirstUserInput();
                 break;
             case "4":
                 actionMenu.userChoseCreateMission();
                 String s2 = handleUserInput();
                 if (Integer.parseInt(s2) == 4) {
                     missionService.findAllMissions().forEach(System.out::println);
+                    printAvailableOptions();
                 }
+                takeFirstUserInput();
                 break;
             case "5":
                 System.out.println("Good bye!");

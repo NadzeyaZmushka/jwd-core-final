@@ -36,7 +36,7 @@ public enum Role implements BaseEntity {
         for (Role role : values()) {
             if (role.getId().equals(id)) {
                 return role;
-            }  // или добавить try-catch с логгером?
+            }
         }
         throw new UnknownEntityException("Role is not found");
     }

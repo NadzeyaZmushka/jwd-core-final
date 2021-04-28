@@ -8,8 +8,6 @@ import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.EntityCreationException;
 import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.service.SpaceshipService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ public final class SpaceshipServiceImpl implements SpaceshipService {
 
     private static SpaceshipServiceImpl instance;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(SpaceMapServiceImpl.class);
     private final ApplicationContext context = NasaContext.getInstance();
 
     private SpaceshipServiceImpl() {

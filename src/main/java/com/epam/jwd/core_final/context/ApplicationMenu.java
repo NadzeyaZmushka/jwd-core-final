@@ -24,31 +24,25 @@ public interface ApplicationMenu {
         System.out.println("----------------\n" +
                 "Choose an action:\n" +
                 "1. Update crew member\n" +
-                "2. Info about spaceships\n" +
-                "3. Info about planets \n" +
-                "4. Create mission\n" +
-                "5. Exit\n" +
-                "6. Return to main menu");
+                "2. Return to main menu\n" +
+                "3. Exit");
     }
 
     default void printAvailableOptionsAfterSpaceships() {
         System.out.println("----------------\n" +
                 "Choose an action:\n" +
-                "1. Info about crew members\n" +
-                "2. Update spaceship\n" +
-                "3. Info about planets \n" +
-                "4. Create mission\n" +
-                "5. Exit\n" +
-                "6. Return to main menu\n");
+                "1. Update spaceship\n" +
+                "2. Return to main menu\n" +
+                "3. Exit\n");
     }
 
     default void printAvailableOptionsAfterPlanets() {
         System.out.println("----------------\n" +
-                "Choose an action:\n" +
+                "Choose an action: \n" +
                 "1. Info about crew members\n" +
-                "2. Info about spaceships \n" +
-                "3. Create mission\n" +
-                "4. Return to main menu\n" +
+                "2. Info about spaceships\n" +
+                "3. Info about planets \n" +
+                "4. Create mission\n" +
                 "5. Exit");
     }
 

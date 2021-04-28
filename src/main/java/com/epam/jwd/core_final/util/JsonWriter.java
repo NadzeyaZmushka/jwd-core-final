@@ -10,7 +10,7 @@ import java.io.IOException;
 public enum JsonWriter {
     INSTANCE;
 
-    ApplicationProperties applicationProperties = PropertyReaderUtil.getInstance().loadProperties();
+    private final ApplicationProperties applicationProperties = PropertyReaderUtil.getInstance().loadProperties();
     private final String PATH = "src/main/resources/";
     private final String FILE_PATH_TO_ENTITY_JSON = PATH + applicationProperties.getOutputRootDir() +
             "/" + applicationProperties.getMissionsFileName() + ".json";

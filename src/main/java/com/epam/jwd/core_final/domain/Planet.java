@@ -10,12 +10,19 @@ import java.util.Objects;
 
 public class Planet extends AbstractBaseEntity {
 
-    private final int x = 1 + (int) (Math.random() * 10);
-    private final int y = 1 + (int) (Math.random() * 10);
+    private final int x;
+    private final int y;
 
     public Planet(Long id, String name) {
         this.id = id;
         this.name = name;
+        this.x = 1 + (int) (Math.random() * 20);
+        this.y = 1 + (int) (Math.random() * 20);
+    }
+
+    public Planet(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {

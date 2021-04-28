@@ -11,8 +11,6 @@ import com.epam.jwd.core_final.exception.EntityCreationException;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.service.CrewService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,6 @@ public final class CrewServiceImpl implements CrewService {
 
     private static CrewServiceImpl instance;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CrewServiceImpl.class);
     private final ApplicationContext context = NasaContext.getInstance();
 
     private CrewServiceImpl() {

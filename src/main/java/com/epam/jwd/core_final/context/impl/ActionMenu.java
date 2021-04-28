@@ -28,7 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ActionMenu implements ApplicationMenu {
+public final class ActionMenu implements ApplicationMenu {
 
     private static ActionMenu instance;
 
@@ -141,7 +141,8 @@ public class ActionMenu implements ApplicationMenu {
                 .withId(crewId)
                 .build());
         findCrewMember.ifPresent(crewService::updateCrewMemberDetails);
-        LOGGER.info("\n-------!Crew member was updated!-------\n" + findCrewMember.toString());
+
+        LOGGER.info("\n-------!Crew member is updated!-------\n" + findCrewMember.toString());
         System.out.println("---------------\n" +
                 "Do you want to continue?\n" +
                 "1. Yes  2.No\n" +
@@ -162,7 +163,9 @@ public class ActionMenu implements ApplicationMenu {
                 .build());
         foundSpaceship.ifPresent(spaceshipService::updateSpaceshipDetails);
 
-        LOGGER.info("\n-------!Spaceship was updated!-------\n" + foundSpaceship.toString());
+        LOGGER.info("\n\t-------!Spaceship is updated!-------\n" +
+                "-------Allowable distance is 1000000 now-------\n" + foundSpaceship.toString());
+
         System.out.println("---------------\n" +
                 "Do you want to continue?\n" +
                 "1. Yes  2.No\n" +
