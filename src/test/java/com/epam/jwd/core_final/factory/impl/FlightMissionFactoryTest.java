@@ -14,11 +14,15 @@ public class FlightMissionFactoryTest {
         FlightMission actual = new FlightMission(1L, "Name",
                 LocalDate.of(2021, 1, 1), LocalDate.of(2021, 1, 2),
                 1234L);
+        FlightMission expected = FlightMissionFactory.getInstance().create(
+                1L, "Name", LocalDate.of(2021, 1, 1),
+                LocalDate.of(2021, 1, 2), 1234L
+        );
 
-        assertEquals((Long) 1L, actual.getId());
-        assertEquals("Name", actual.getName());
-        assertEquals(LocalDate.of(2021, 1, 1), actual.getStartDate());
-        assertEquals(LocalDate.of(2021, 1, 2), actual.getEndDate());
-        assertEquals((Long) 1234L, actual.getDistance());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getStartDate(), actual.getStartDate());
+        assertEquals(expected.getEndDate(), actual.getEndDate());
+        assertEquals(expected.getDistance(), actual.getDistance());
     }
 }

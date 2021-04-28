@@ -17,12 +17,14 @@ public class SpaceshipFactoryTest {
                     put(Role.COMMANDER, (short) 4);
                 }},
                 4321L);
+        Spaceship expected = SpaceshipFactory.getInstance().create(
+                1L, "Spaceship", new HashMap<>() {{
+                    put(Role.COMMANDER, (short) 4);
+                }}, 4321L);
 
-        assertEquals(1L, (long) actual.getId());
-        assertEquals("Spaceship", actual.getName());
-        assertEquals(new HashMap<>() {{
-            put(Role.COMMANDER, (short) 4);
-        }}, actual.getCrew());
-        assertEquals(4321L, (long) actual.getFlightDistance());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getCrew(), actual.getCrew());
+        assertEquals(expected.getFlightDistance(), actual.getFlightDistance());
     }
 }
