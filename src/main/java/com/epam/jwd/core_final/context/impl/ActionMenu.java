@@ -128,6 +128,8 @@ public final class ActionMenu implements ApplicationMenu {
                 "----------------");
         if (Integer.parseInt(handleUserInput()) == 1) {
             printAvailableOptionsAfterMissionCreation();
+        } else {
+            System.out.println("Good bye!");
         }
     }
 

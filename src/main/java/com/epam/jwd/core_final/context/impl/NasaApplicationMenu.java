@@ -72,8 +72,8 @@ public final class NasaApplicationMenu implements ApplicationMenu {
                 if (Integer.parseInt(s2) == 4) {
                     missionService.findAllMissions().forEach(System.out::println);
                     printAvailableOptions();
+                    takeFirstUserInput();
                 }
-                takeFirstUserInput();
                 break;
             case "5":
                 System.out.println("Good bye!");

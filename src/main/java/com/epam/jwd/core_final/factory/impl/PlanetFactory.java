@@ -1,5 +1,6 @@
 package com.epam.jwd.core_final.factory.impl;
 
+import com.epam.jwd.core_final.domain.Location;
 import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.factory.EntityFactory;
 
@@ -13,7 +14,9 @@ public final class PlanetFactory implements EntityFactory<Planet> {
 
     @Override
     public Planet create(Object... args) {
-        return new Planet((Long) args[0], (String) args[1]);
+        return new Planet((Long) args[0],
+                (String) args[1],
+                (Location) args[2]);
     }
 
 }

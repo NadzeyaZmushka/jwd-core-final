@@ -25,4 +25,5 @@ public class FlightMissionFactoryTest {
         assertEquals(expected.getEndDate(), actual.getEndDate());
         assertEquals(expected.getDistance(), actual.getDistance());
     }
+
 }

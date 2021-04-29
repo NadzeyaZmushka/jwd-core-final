@@ -12,7 +12,7 @@ public interface ApplicationMenu {
         System.out.println("-----------------\n" +
                 "Welcome! \n" +
                 "-----------------\n" +
-                "Choose an action: \n" +
+                "Choose an action (enter a number from 1 to 5): \n" +
                 "1. Info about crew members\n" +
                 "2. Info about spaceships\n" +
                 "3. Info about planets \n" +
@@ -22,7 +22,7 @@ public interface ApplicationMenu {
 
     default void printAvailableOptionsAfterCrew() {
         System.out.println("----------------\n" +
-                "Choose an action:\n" +
+                "Choose an action (enter a number from 1 to 3):\n" +
                 "1. Update crew member\n" +
                 "2. Return to main menu\n" +
                 "3. Exit");
@@ -30,7 +30,7 @@ public interface ApplicationMenu {
 
     default void printAvailableOptionsAfterSpaceships() {
         System.out.println("----------------\n" +
-                "Choose an action:\n" +
+                "Choose an action (enter a number from 1 to 3):\n" +
                 "1. Update spaceship\n" +
                 "2. Return to main menu\n" +
                 "3. Exit\n");
@@ -38,7 +38,7 @@ public interface ApplicationMenu {
 
     default void printAvailableOptionsAfterPlanets() {
         System.out.println("----------------\n" +
-                "Choose an action: \n" +
+                "Choose an action (enter a number from 1 to 5): \n" +
                 "1. Info about crew members\n" +
                 "2. Info about spaceships\n" +
                 "3. Info about planets \n" +
@@ -48,7 +48,7 @@ public interface ApplicationMenu {
 
     default void printAvailableOptionsAfterMissionCreation() {
         System.out.println("----------------\n" +
-                "Choose an action:\n" +
+                "Choose an action (enter a number from 1 to 6):\n" +
                 "1. Info about crew members\n" +
                 "2. Info about spaceships \n" +
                 "3. Info about planets\n" +

@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.reader;
 
 import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.Location;
 import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
@@ -61,7 +62,8 @@ public enum EntityPopulate {
         List<String> list = reader.readSpaceMapFromFile(filePath);
 
         for (String lines : list) {
-            planets.add(planetFactory.create(id++, lines));
+            planets.add(planetFactory.create(id++, lines,
+                    new Location((int) (1 + (Math.random() * 20)), (int) (1 + (Math.random() * 20)))));
         }
         return planets;
     }

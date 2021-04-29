@@ -27,4 +27,5 @@ public class SpaceshipFactoryTest {
         assertEquals(expected.getCrew(), actual.getCrew());
         assertEquals(expected.getFlightDistance(), actual.getFlightDistance());
     }
+
 }

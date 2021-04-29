@@ -6,6 +6,8 @@ import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.FlightMissionCriteria;
 import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.MissionResult;
+import com.epam.jwd.core_final.exception.EntityCreationException;
+import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
 import com.epam.jwd.core_final.service.MissionService;
 
 import java.util.ArrayList;
@@ -94,11 +96,18 @@ public final class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public FlightMission createMission(FlightMission flightMission) {
-        if (!(findAllMissions().contains(flightMission))) {
-            findAllMissions().add(flightMission);
+    public FlightMission createMission(FlightMission flightMission) throws EntityCreationException {
+        Optional<FlightMission> duplicateId = findAllMissions().stream()
+                .filter(m -> m.getId().equals(flightMission.getId())).findAny();
+        if ((duplicateId.isPresent())) {
+            throw new EntityCreationException("Such flight mission already exist");
         }
-        return flightMission;
+        FlightMission mission = FlightMissionFactory.getInstance()
+                .create(flightMission.getId(), flightMission.getName(),
+                        flightMission.getStartDate(), flightMission.getEndDate(),
+                        flightMission.getDistance());
+        findAllMissions().add(mission);
+        return mission;
     }
 
 }

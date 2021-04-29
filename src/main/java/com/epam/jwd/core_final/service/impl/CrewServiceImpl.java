@@ -5,15 +5,18 @@ import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.exception.EntityCreationException;
 import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.UnknownEntityException;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.service.CrewService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,25 +65,30 @@ public final class CrewServiceImpl implements CrewService {
     }
 
     @Override
-    public Optional<CrewMember> findCrewMemberByCriteria(Criteria<? extends CrewMember> criteria) {
-        return findAllCrewMembersByCriteria(criteria).stream().findFirst();
+    public Optional<CrewMember> findCrewMemberByCriteria(Criteria<? extends CrewMember> criteria) throws UnknownEntityException {
+        return findAllCrewMembersByCriteria(criteria).stream().findAny();
     }
 
     @Override
-    public void updateCrewMemberDetails(CrewMember crewMember) {
+    public CrewMember updateCrewMemberDetails(CrewMember crewMember) throws UnknownEntityException {
+        if (crewMember == null) {
+            throw new UnknownEntityException("Crew is not exist");
+        }
         crewMember.setRank(Rank.CAPTAIN);
         crewMember.setRole(Role.COMMANDER);
+
+        return crewMember;
     }
 
-    // todo create custom exception for case, when crewMember is not able to be assigned
     @Override
-    public void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException, InvalidStateException {
-        // ...
+    public void assignCrewMemberOnMission(FlightMission flightMission, CrewMember crewMember) throws InvalidStateException {
 
+        if (flightMission == null || crewMember == null || !crewMember.isReadyForNextMission()) {
+            throw new InvalidStateException("It is not possible to assign crew");
+        }
+        Objects.requireNonNull(flightMission).getAssignedCrew().add(crewMember);
     }
 
-    // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
-    // crewMember unique criteria - only name!
     @Override
     public CrewMember createCrewMember(CrewMember crewMember) throws EntityCreationException {
         Optional<CrewMember> duplicateId = findAllCrewMembers().stream()
@@ -92,7 +100,7 @@ public final class CrewServiceImpl implements CrewService {
         CrewMember member = CrewMemberFactory.getInstance()
                 .create(crewMember.getId(), crewMember.getName(),
                         crewMember.getRole(), crewMember.getRank());
-        context.retrieveBaseEntityList(CrewMember.class).add(crewMember);
+        findAllCrewMembers().add(crewMember);
         return member;
     }
 

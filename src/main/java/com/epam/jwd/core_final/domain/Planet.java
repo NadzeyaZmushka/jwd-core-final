@@ -10,27 +10,16 @@ import java.util.Objects;
 
 public class Planet extends AbstractBaseEntity {
 
-    private final int x;
-    private final int y;
+    private final Location location;
 
-    public Planet(Long id, String name) {
+    public Planet(Long id, String name, Location location) {
         this.id = id;
         this.name = name;
-        this.x = 1 + (int) (Math.random() * 20);
-        this.y = 1 + (int) (Math.random() * 20);
+        this.location = location;
     }
 
-    public Planet(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Location getLocation() {
+        return location;
     }
 
     @Override
@@ -38,22 +27,21 @@ public class Planet extends AbstractBaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Planet planet = (Planet) o;
-        return x == planet.x &&
-                y == planet.y;
+        return Objects.equals(location, planet.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(location);
     }
 
     @Override
     public String toString() {
         return "Planet{" +
-                "name='" + name +
-                ", x=" + x +
-                ", y=" + y +
+                "location=" + location +
                 ", id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
+
 }

@@ -2,8 +2,10 @@ package com.epam.jwd.core_final.service;
 
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.exception.EntityCreationException;
 import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.UnknownEntityException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +22,10 @@ public interface CrewService {
 
     Optional<CrewMember> findCrewMemberByCriteria(Criteria<? extends CrewMember> criteria);
 
-    void updateCrewMemberDetails(CrewMember crewMember);
+    CrewMember updateCrewMemberDetails(CrewMember crewMember) throws UnknownEntityException;
 
     // todo create custom exception for case, when crewMember is not able to be assigned
-    void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException, InvalidStateException;
+    void assignCrewMemberOnMission(FlightMission flightMission, CrewMember crewMember) throws RuntimeException, InvalidStateException;
 
     // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
     // crewmember unique criteria - only name!

@@ -38,14 +38,19 @@ public final class SpaceMapServiceImpl implements SpaceMapService {
 
     @Override
     public int getDistanceBetweenPlanets(Planet first, Planet second) {
-        return (int) (Math.sqrt(Math.pow((second.getX() - first.getX()), 2) +
-                Math.pow((second.getY() - first.getY()), 2)));
+        return (int) (Math.sqrt(Math.pow((second.getLocation().getX() - first.getLocation().getX()), 2) +
+                Math.pow((second.getLocation().getY() - first.getLocation().getY()), 2)));
     }
 
     public List<Planet> findAllPlanetsByCriteria(Criteria<? extends Planet> criteria) {
         List<Planet> planets = null;
         PlanetCriteria planetCriteria = (PlanetCriteria) criteria;
 
+        if (planetCriteria.getLocation() != null) {
+            planets = findAllPlanets().stream()
+                    .filter(planet -> planet.getLocation().equals(planetCriteria.getLocation()))
+                    .collect(Collectors.toList());
+        }
         if (planetCriteria.getId() != null) {
             planets = findAllPlanets().stream()
                     .filter(planet -> planet.getId().equals(planetCriteria.getId()))

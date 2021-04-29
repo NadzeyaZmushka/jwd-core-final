@@ -22,21 +22,10 @@ public class CrewMemberCriteria extends Criteria<CrewMember> {
         this.isReadyForNextMissions = isReadyForNextMissions;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public Rank getRank() {
-        return rank;
-    }
-
-    public Boolean getReadyForNextMissions() {
-        return isReadyForNextMissions;
-    }
-
     public static class CriteriaBuilder {
 
         Long id;
+
         Role role;
         Rank rank;
         Boolean isReadyForNextMissions;
@@ -67,6 +56,18 @@ public class CrewMemberCriteria extends Criteria<CrewMember> {
         public CrewMemberCriteria build() {
             return new CrewMemberCriteria(this.id, this.role, this.rank, this.isReadyForNextMissions);
         }
+
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public Boolean getReadyForNextMissions() {
+        return isReadyForNextMissions;
+    }
 }

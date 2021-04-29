@@ -4,8 +4,11 @@ import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.context.impl.NasaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.SpaceshipCriteria;
+import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.EntityCreationException;
+import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.UnknownEntityException;
 import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.service.SpaceshipService;
 
@@ -69,18 +72,22 @@ public final class SpaceshipServiceImpl implements SpaceshipService {
     }
 
     @Override
-    public void updateSpaceshipDetails(Spaceship spaceship) {
+    public Spaceship updateSpaceshipDetails(Spaceship spaceship) {
+        if (spaceship == null) {
+            throw new UnknownEntityException("Spaceship is not exist");
+        }
         spaceship.setFlightDistance(1000000L);
+        return spaceship;
     }
 
-    // todo create custom exception for case, when spaceship is not able to be assigned
     @Override
-    public void assignSpaceshipOnMission(Spaceship crewMember) throws RuntimeException {
-        // ...
+    public void assignSpaceshipOnMission(FlightMission flightMission, Spaceship spaceship) throws InvalidStateException {
+        if (flightMission == null || spaceship == null || !spaceship.getReadyForNextMission()) {
+            throw new InvalidStateException("It is not possible to assign spaceship");
+        }
+        flightMission.setAssignedSpaceShift(spaceship);
     }
 
-    // todo create custom exception for case, when crewMember is not able to be created (for example - duplicate.
-    // spaceship unique criteria - only name!
     @Override
     public Spaceship createSpaceship(Spaceship spaceship) throws EntityCreationException {
         Optional<Spaceship> duplicateId = findAllSpaceships().stream()
